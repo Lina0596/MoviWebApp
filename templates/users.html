@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - MovieWeb App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <h1>Users</h1>
+  <ul>
+    {% if users %}
+        {% for user in users %}
+          <li>
+            <a href="{{ url_for('list_user_movies') }}">{{ user.name }}</a>
+          </li>
+        {% endfor %}
+    {% else %}
+        <p>No users found.</p>
+    {% endif %}
+  </ul>
+</body>
+</html>

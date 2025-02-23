@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, url_for, render_template, flash, redirect
 from MoviWebApp.datamanager.sqlite_data_manager import SQLiteDataManager
 
 
@@ -13,10 +13,11 @@ def home():
 
 @app.route('/users')
 def list_users():
-    pass
+    users = data_manager.get_all_users()
+    return render_template('users.html', users=users)
 
 
-@app.route('/users/<user_id>')
+@app.route('/users/<user_id>', methods=['GET'])
 def list_user_movies(user_id):
     pass
 
