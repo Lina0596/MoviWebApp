@@ -26,12 +26,19 @@ class DataManagerInterface(ABC):
     @abstractmethod
     def add_movie(self, movie):
         """
-        Updates the details of a specific movie in the database.
+        Adds a new movie to the database.
         """
         pass
 
     @abstractmethod
     def update_movie(self, movie):
+        """
+        Updates the details of a specific movie in the database.
+        """
+        pass
+
+    @abstractmethod
+    def delete_movie(self, movie_id):
         """
         Deletes a specific movie from the database.
         """

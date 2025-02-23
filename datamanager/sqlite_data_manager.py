@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from MoviWebApp.datamanager.data_manager_interface import DataManagerInterface
-from data_models import Base, User, Movie
+from MoviWebApp.datamanager.data_models import Base, User, Movie
 
 
 class SQLiteDataManager(DataManagerInterface):
@@ -14,28 +14,60 @@ class SQLiteDataManager(DataManagerInterface):
         """
         Returns a list of all users in the database.
         """
-        pass
+        with self.Session() as session:
+            return session.query(User).all()
 
     def get_user_movies(self, user_id):
         """
         Returns a list of all movies of a specific user.
         """
-        pass
+        with self.Session() as session:
+            user_movies = session.query(Movie).filter(Movie.user_id == user_id).all()
+            return user_movies
 
     def add_user(self, user):
         """
         Adds a new user to the database.
         """
-        pass
+        with self.Session() as session:
+            new_user = User(
+                name=user
+            )
+            session.add(new_user)
+            session.commit()
 
     def add_movie(self, movie):
         """
-        Updates the details of a specific movie in the database.
+        Adds a new movie to the database.
         """
-        pass
+        with self.Session() as session:
+            new_movie = Movie(
+                title=movie['Title'],
+                director=movie['Director'],
+                year_of_release=movie['Year'],
+                rating=movie['imdbRating'],
+                user_id=1
+            )
+            session.add(new_movie)
+            session.commit()
 
     def update_movie(self, movie):
         """
+        Updates the details of a specific movie in the database.
+        """
+        with self.Session() as session:
+            movie_to_update = session.query(Movie).filter(Movie.id == movie.id).first()
+            movie_to_update.title = movie.title
+            movie_to_update.director = movie.director
+            movie_to_update.year_of_release = movie.year_of_release
+            movie_to_update.rating = movie.rating
+            session.commit()
+
+    def delete_movie(self, movie_id):
+        """
         Deletes a specific movie from the database.
         """
-        pass
+        with self.Session() as session:
+            movie_to_delete = session.query(Movie).filter(Movie.id == movie_id).first()
+            session.delete(movie_to_delete)
+            session.commit()
