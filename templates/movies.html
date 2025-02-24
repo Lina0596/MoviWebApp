@@ -10,6 +10,8 @@
 
 <body>
   <h1>Movies</h1>
+    <a href="{{ url_for('add_movie', user_id=user_id) }}">Add Movie</a>
+    <a href="{{ url_for('list_users') }}">Users</a>
   <div class="movies">
     {% if movies %}
         {% for movie in movies %}
