@@ -23,10 +23,13 @@ def list_user_movies(user_id):
     return render_template('movies.html', movies=user_movies)
 
 
-@app.route('/add_user')
+@app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
-    pass
-
+    if request.method == 'POST':
+        new_user = request.form['name']
+        data_manager.add_user(new_user)
+        return redirect(url_for('list_users'))
+    return render_template('add_user.html')
 
 @app.route('/users/<user_id>/add_movie')
 def add_movie(user_id):
