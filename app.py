@@ -19,11 +19,12 @@ def list_users():
 
 @app.route('/users/<user_id>', methods=['GET'])
 def list_user_movies(user_id):
-    pass
+    user_movies = data_manager.get_user_movies(user_id)
+    return render_template('movies.html', movies=user_movies)
 
 
-@app.route('/users/<user_id>')
-def add_user(user_id):
+@app.route('/add_user')
+def add_user():
     pass
 
 

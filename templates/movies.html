@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies - MovieWeb App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <h1>Movies</h1>
+  <div class="movies">
+    {% if movies %}
+        {% for movie in movies %}
+            <h3>{{ movie.title }}</h3>
+            <p>{{ movie.director }}</p>
+            <p>{{ movie.year_of_release }}</p>
+            <p>{{ movie.rating }}</p>
+        {% endfor %}
+    {% else %}
+        <p>No movies in your library.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

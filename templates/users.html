@@ -14,7 +14,9 @@
     {% if users %}
         {% for user in users %}
           <li>
-            <a href="{{ url_for('list_user_movies') }}">{{ user.name }}</a>
+              <form method="GET" action="{{ url_for('list_user_movies', user_id=user.id) }}">
+                  <button type="submit">{{ user.name }}</button>
+              </form>
           </li>
         {% endfor %}
     {% else %}

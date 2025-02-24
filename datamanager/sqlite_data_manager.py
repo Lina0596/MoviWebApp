@@ -36,7 +36,7 @@ class SQLiteDataManager(DataManagerInterface):
             session.add(new_user)
             session.commit()
 
-    def add_movie(self, movie):
+    def add_movie(self, movie, user_id):
         """
         Adds a new movie to the database.
         """
@@ -46,7 +46,7 @@ class SQLiteDataManager(DataManagerInterface):
                 director=movie['Director'],
                 year_of_release=movie['Year'],
                 rating=movie['imdbRating'],
-                user_id=1
+                user_id=user_id
             )
             session.add(new_movie)
             session.commit()
