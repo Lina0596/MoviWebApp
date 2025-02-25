@@ -1,3 +1,5 @@
+from crypt import methods
+
 from flask import Flask, request, url_for, render_template, flash, redirect
 from MoviWebApp.datamanager.sqlite_data_manager import SQLiteDataManager
 import requests
@@ -66,9 +68,10 @@ def update_movie(user_id, movie_id):
     return render_template('update_movie.html', user_id=user_id, movie=movie_to_update)
 
 
-@app.route('/users/<int:user_id>/delete_movie/<int:movie_id>')
-def delete_movie(movie_id):
-    pass
+@app.route('/users/<int:user_id>/delete_movie/<int:movie_id>', methods=['GET'])
+def delete_movie(user_id, movie_id):
+    data_manager.delete_movie(movie_id)
+    return redirect(url_for('list_user_movies', user_id=user_id))
 
 
 if __name__ == '__main__':
