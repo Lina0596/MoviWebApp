@@ -41,6 +41,7 @@ def add_user():
         return redirect(url_for('list_users'))
     return render_template('add_user.html')
 
+
 @app.route('/users/<int:user_id>/add_movie', methods=['GET', 'POST'])
 def add_movie(user_id):
     if request.method == 'POST':
@@ -54,9 +55,15 @@ def add_movie(user_id):
     return render_template('add_movie.html')
 
 
-@app.route('/users/<int:user_id>/update_movie/<int:movie_id>')
+@app.route('/users/<int:user_id>/update_movie/<int:movie_id>', methods=['GET', 'POST'])
 def update_movie(user_id, movie_id):
-    pass
+    user_movies = data_manager.get_user_movies(user_id)
+    movie_to_update = next((movie for movie in user_movies if movie.id == movie_id), None)
+    if request.method == 'POST':
+        movie_to_update.rating = request.form['rating']
+        data_manager.update_movie(movie_to_update)
+        return redirect(url_for('list_user_movies', user_id=user_id))
+    return render_template('update_movie.html', user_id=user_id, movie=movie_to_update)
 
 
 @app.route('/users/<int:user_id>/delete_movie/<int:movie_id>')
