@@ -21,5 +21,8 @@
       <input type="text" id="rating" name="rating" value="{{ movie.rating }}"><br>
       <input type="submit" value="Update movie">
   </form>
+  {% if error %}
+    <p>{{ error }}</p>
+  {% endif %}
 </body>
 </html>

@@ -15,5 +15,8 @@
     <input type="text" id="title" name="title"><br>
     <input type="submit" value="Add movie">
   </form>
+  {% if error %}
+    <p>{{ error }}</p>
+  {% endif %}
 </body>
 </html>

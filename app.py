@@ -1,12 +1,9 @@
-from crypt import methods
-
 from flask import Flask, request, url_for, render_template, flash, redirect
 from MoviWebApp.datamanager.sqlite_data_manager import SQLiteDataManager
 import requests
 
 
 app = Flask(__name__)
-app.secret_key = '0944e3979fa07a3ab609cd515cbcc687'
 data_manager = SQLiteDataManager('moviwebapp.db')
 
 
@@ -52,8 +49,9 @@ def add_movie(user_id):
         if movie["Response"] == "True":
             data_manager.add_movie(movie, user_id)
             return redirect(url_for('list_user_movies', user_id=user_id))
-        flash('This movie does not exist.', 'error')
-        return redirect(url_for('add_movie', user_id=user_id))
+        else:
+            error = "We can not find the movie. Please try again."
+            return render_template('add_movie.html', error=error)
     return render_template('add_movie.html')
 
 
@@ -62,9 +60,14 @@ def update_movie(user_id, movie_id):
     user_movies = data_manager.get_user_movies(user_id)
     movie_to_update = next((movie for movie in user_movies if movie.id == movie_id), None)
     if request.method == 'POST':
-        movie_to_update.rating = request.form['rating']
-        data_manager.update_movie(movie_to_update)
-        return redirect(url_for('list_user_movies', user_id=user_id))
+        updated_rating = request.form['rating']
+        if not updated_rating or not updated_rating.isdigit() or int(updated_rating) < 1 or int(updated_rating) > 10:
+            error = "Invalid rating! Please enter a number between 1 and 10."
+            return render_template('update_movie.html', user_id=user_id, movie=movie_to_update, error=error)
+        else:
+            movie_to_update.rating = updated_rating
+            data_manager.update_movie(movie_to_update)
+            return redirect(url_for('list_user_movies', user_id=user_id))
     return render_template('update_movie.html', user_id=user_id, movie=movie_to_update)
 
 
