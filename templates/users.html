@@ -9,20 +9,20 @@
 </head>
 
 <body>
-  <h1>Users</h1>
-  <a href="{{ url_for('add_user') }}">add new user</a>
-  <ul>
-    {% if users %}
-        {% for user in users %}
-          <li>
-              <form method="GET" action="{{ url_for('list_user_movies', user_id=user.id) }}">
-                  <button type="submit">{{ user.name }}</button>
-              </form>
-          </li>
-        {% endfor %}
-    {% else %}
-        <p>No users found.</p>
-    {% endif %}
-  </ul>
+    <h1>Users</h1>
+    <a href="{{ url_for('add_user') }}">add new user</a>
+    <ul>
+        {% if users %}
+            {% for user in users %}
+            <li>
+                <form method="GET" action="{{ url_for('list_user_movies', user_id=user.id) }}">
+                    <button type="submit">{{ user.name }}</button>
+                </form>
+            </li>
+            {% endfor %}
+        {% else %}
+            <p>No users found.</p>
+        {% endif %}
+    </ul>
 </body>
 </html>

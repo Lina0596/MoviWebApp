@@ -1,10 +1,13 @@
-from flask import Flask, request, url_for, render_template, flash, redirect
+from flask import Flask, request, url_for, render_template, redirect
 from MoviWebApp.datamanager.sqlite_data_manager import SQLiteDataManager
 import requests
 
 
 app = Flask(__name__)
-data_manager = SQLiteDataManager('moviwebapp.db')
+try:
+    data_manager = SQLiteDataManager('moviwebapp.db')
+except IOError as e:
+    print("An IOError occurred: ", str(e))
 
 
 def get_movie_from_api(title):
@@ -13,6 +16,10 @@ def get_movie_from_api(title):
     request_movie = requests.get(url)
     movie = request_movie.json()
     return movie
+
+
+def validate_data_id(data, data_id):
+    return any(data_object.id == data_id for data_object in data)
 
 
 @app.route('/')
@@ -28,6 +35,10 @@ def list_users():
 
 @app.route('/users/<int:user_id>', methods=['GET'])
 def list_user_movies(user_id):
+    users = data_manager.get_all_users()
+    if not validate_data_id(users, user_id):
+        error = 'User id does not exists.'
+        return render_template('404.html', error=error)
     user_movies = data_manager.get_user_movies(user_id)
     return render_template('movies.html', movies=user_movies, user_id=user_id)
 
@@ -50,24 +61,27 @@ def add_movie(user_id):
             user_movies = data_manager.get_user_movies(user_id)
             for movie in user_movies:
                 if movie.title == new_movie["Title"]:
-                    message = "This movie already exists in your library."
+                    message = 'This movie already exists in your library.'
                     return render_template('add_movie.html', message=message)
             data_manager.add_movie(new_movie, user_id)
             return redirect(url_for('list_user_movies', user_id=user_id))
         else:
-            error = "We can not find the movie. Please try again."
+            error = 'We can not find the movie.'
             return render_template('add_movie.html', error=error)
-    return render_template('add_movie.html')
+    return render_template('add_movie.html', user_id=user_id)
 
 
 @app.route('/users/<int:user_id>/update_movie/<int:movie_id>', methods=['GET', 'POST'])
 def update_movie(user_id, movie_id):
     user_movies = data_manager.get_user_movies(user_id)
     movie_to_update = next((movie for movie in user_movies if movie.id == movie_id), None)
+    if movie_to_update is None:
+        error = 'Movie id does not exists.'
+        return render_template('404.html', error=error)
     if request.method == 'POST':
         updated_rating = request.form['rating']
         if not updated_rating or not updated_rating.isdigit() or int(updated_rating) < 1 or int(updated_rating) > 10:
-            error = "Invalid rating! Please enter a number between 1 and 10."
+            error = 'Invalid rating! Please enter a number between 1 and 10.'
             return render_template('update_movie.html', user_id=user_id, movie=movie_to_update, error=error)
         else:
             movie_to_update.rating = updated_rating
@@ -83,8 +97,8 @@ def delete_movie(user_id, movie_id):
 
 
 @app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
+def page_not_found(error):
+    return render_template('404.html', error=error), 404
 
 
 if __name__ == '__main__':
@@ -93,9 +107,6 @@ if __name__ == '__main__':
 
 """
 TO DO:
-- handle users and movies that does not exist
-- Error handling pages
-- Link back
 - add docstrings
 - add css style
 (- add cover url)

@@ -4,11 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Movie - MovieWeb App</title>
+    <title>404 - MovieWeb App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
     <h1>404 Error</h1>
+    <p>Page not found</p>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    <a href="{{ url_for('home') }}">Go back to homepage</a>
 </body>
 </html>
