@@ -57,9 +57,6 @@ class SQLiteDataManager(DataManagerInterface):
         """
         with self.Session() as session:
             movie_to_update = session.query(Movie).filter(Movie.id == movie.id).first()
-            movie_to_update.title = movie.title
-            movie_to_update.director = movie.director
-            movie_to_update.year_of_release = movie.year_of_release
             movie_to_update.rating = movie.rating
             session.commit()
 

@@ -9,20 +9,21 @@
 </head>
 
 <body>
-  <h2>Update the rating of the movie</h2>
-  <form method="POST" action="{{ url_for('update_movie', user_id=user_id, movie_id=movie.id) }}">
-      <label for="title">Title</label><br>
-      <input type="text" id="title" name="title" value="{{ movie.title }}" disabled><br>
-      <label for="director">Director</label><br>
-      <input type="text" id="director" name="director" value="{{ movie.director }}" disabled><br>
-      <label for="year_of_release">Year of release</label><br>
-      <input type="text" id="year_of_release" name="year_of_release" value="{{ movie.year_of_release }}" disabled><br>
-      <label for="rating">Rating</label><br>
-      <input type="text" id="rating" name="rating" value="{{ movie.rating }}"><br>
-      <input type="submit" value="Update movie">
-  </form>
-  {% if error %}
-    <p>{{ error }}</p>
-  {% endif %}
+    <h2>Update the rating of the movie</h2>
+    <form method="POST" action="{{ url_for('update_movie', user_id=user_id, movie_id=movie.id) }}">
+        <label for="title">Title</label><br>
+        <input type="text" id="title" name="title" value="{{ movie.title }}" disabled><br>
+        <label for="director">Director</label><br>
+        <input type="text" id="director" name="director" value="{{ movie.director }}" disabled><br>
+        <label for="year_of_release">Year of release</label><br>
+        <input type="text" id="year_of_release" name="year_of_release" value="{{ movie.year_of_release }}" disabled><br>
+        <label for="rating">Rating</label><br>
+        <input type="text" id="rating" name="rating" value="{{ movie.rating }}"><br>
+        <input type="submit" value="Update movie">
+    </form>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    <a href="{{ url_for('list_user_movies', user_id=user_id) }}">Back to my movies</a>
 </body>
 </html>

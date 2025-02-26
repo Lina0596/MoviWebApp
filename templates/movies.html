@@ -9,22 +9,22 @@
 </head>
 
 <body>
-  <h1>Movies</h1>
+    <h1>Movies</h1>
     <a href="{{ url_for('add_movie', user_id=user_id) }}">Add Movie</a>
     <a href="{{ url_for('list_users') }}">Users</a>
-  <div class="movies">
-    {% if movies %}
-        {% for movie in movies %}
-            <h3>{{ movie.title }}</h3>
-            <p>{{ movie.director }}</p>
-            <p>{{ movie.year_of_release }}</p>
-            <p>{{ movie.rating }}</p>
-            <a href="{{ url_for('update_movie', user_id=user_id, movie_id=movie.id) }}">Update Movie</a>
-            <a href="{{ url_for('delete_movie', user_id=user_id, movie_id=movie.id) }}">Delete Movie</a>
-        {% endfor %}
-    {% else %}
-        <p>No movies in your library.</p>
-    {% endif %}
-  </div>
+    <div class="movies">
+        {% if movies %}
+            {% for movie in movies %}
+                <h3>{{ movie.title }}</h3>
+                <p>{{ movie.director }}</p>
+                <p>{{ movie.year_of_release }}</p>
+                <p>{{ movie.rating }}</p>
+                <a href="{{ url_for('update_movie', user_id=user_id, movie_id=movie.id) }}">Update Movie</a>
+                <a href="{{ url_for('delete_movie', user_id=user_id, movie_id=movie.id) }}">Delete Movie</a>
+            {% endfor %}
+        {% else %}
+            <p>No movies in your library.</p>
+        {% endif %}
+    </div>
 </body>
 </html>

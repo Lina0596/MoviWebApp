@@ -17,7 +17,7 @@ def get_movie_from_api(title):
 
 @app.route('/')
 def home():
-    return "Welcome to MovieWeb App!"
+    return render_template('home.html')
 
 
 @app.route('/users')
@@ -45,9 +45,14 @@ def add_user():
 def add_movie(user_id):
     if request.method == 'POST':
         title = request.form['title']
-        movie = get_movie_from_api(title)
-        if movie["Response"] == "True":
-            data_manager.add_movie(movie, user_id)
+        new_movie = get_movie_from_api(title)
+        if new_movie["Response"] == "True":
+            user_movies = data_manager.get_user_movies(user_id)
+            for movie in user_movies:
+                if movie.title == new_movie["Title"]:
+                    message = "This movie already exists in your library."
+                    return render_template('add_movie.html', message=message)
+            data_manager.add_movie(new_movie, user_id)
             return redirect(url_for('list_user_movies', user_id=user_id))
         else:
             error = "We can not find the movie. Please try again."
@@ -77,5 +82,23 @@ def delete_movie(user_id, movie_id):
     return redirect(url_for('list_user_movies', user_id=user_id))
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+"""
+TO DO:
+- handle users and movies that does not exist
+- Error handling pages
+- Link back
+- add docstrings
+- add css style
+(- add cover url)
+(- check if users are in the database in add_user)
+(- ask delete message in delete_movie)
+"""

@@ -9,14 +9,18 @@
 </head>
 
 <body>
-  <h2>Add a new movie</h2>
-  <form method="POST" action="add_movie">
-    <label for="title">Title</label><br>
-    <input type="text" id="title" name="title"><br>
-    <input type="submit" value="Add movie">
-  </form>
-  {% if error %}
-    <p>{{ error }}</p>
-  {% endif %}
+    <h2>Add a new movie</h2>
+    <form method="POST" action="add_movie">
+        <label for="title">Title</label><br>
+        <input type="text" id="title" name="title"><br>
+        <input type="submit" value="Add movie">
+    </form>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <a href="{{ url_for('list_user_movies', user_id=user_id) }}">Back to my movies</a>
 </body>
 </html>
