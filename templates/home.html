@@ -4,12 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movies - MovieWeb App</title>
+    <title>Hello - MovieWeb App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<body>
-    <h1>Welcome to MovieWeb App!</h1>
-    <a href="{{ url_for('list_users') }}">Users</a>
+<body class="fullscreen">
+    <div>
+        <img id="logo" src="static/movie_icon.svg" alt="Movie Icon">
+        <h1>Welcome to MovieWeb App!</h1>
+        <p>Create your own movie library!</p>
+        <a href="{{ url_for('list_users') }}">Let's go!</a>
+    </div>
 </body>
 </html>

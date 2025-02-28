@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<body>
-    <h1>404 Error</h1>
-    <p>Page not found</p>
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
-    <a href="{{ url_for('home') }}">Go back to homepage</a>
+<body class="fullscreen">
+    <div>
+        <h1>404 Error</h1>
+        <p>Page not found</p>
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+        <a href="{{ url_for('home') }}">Go back to homepage</a>
+    </div>
 </body>
 </html>
